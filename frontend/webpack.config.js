@@ -14,6 +14,10 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   plugins: [
@@ -24,5 +28,6 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, 'dist'),
     port: 3000,
+    open: true,
   },
 };
