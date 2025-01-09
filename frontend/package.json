@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-site",
+  "version": "1.0.0",
+  "description": "React-based e-commerce site for computer items",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "author": "",
+  "license": "MIT"
+}
