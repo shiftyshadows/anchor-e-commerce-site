@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const dotenv = require("dotenv").config({ path: "./.env" });
 
 module.exports = {
-  entry: "./src/index.js", // Main entry point
+  entry: "./src/index.jsx", // Main entry point
   output: {
     path: path.resolve(__dirname, "dist"), // Output directory
     filename: "bundle.js", // Output bundle file
