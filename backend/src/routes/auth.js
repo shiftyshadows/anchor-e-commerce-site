@@ -90,9 +90,9 @@ router.post("/signin", async (req, res) => {
 
     // Respond with user role and redirect URL
     res.status(200).json({
-      message: "Login successful.",
-      isAdmin: user.isAdmin,
+      token,
       redirectUrl,
+      message: "Login successful.",
     });
   } catch (error) {
     console.error(error);

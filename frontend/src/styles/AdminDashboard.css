@@ -1,0 +1,44 @@
+.admin-dashboard {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+.admin-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard-section {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section h2 {
+  margin-top: 0;
+}
+
+.admin-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.admin-btn:hover {
+  background-color: #0056b3;
+}

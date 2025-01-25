@@ -1,21 +1,9 @@
-import jwt from "jsonwebtoken";
-
+// Middleware to verify admin access
 const verifyAdmin = (req, res, next) => {
-    const token = req.headers["authorization"];
-    if (!token) return res.status(403).json({ message: "No token provided" });
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(401).json({ message: "Unauthorized" });
-
-        if (!decoded.isAdmin) {
-            return res
-                .status(403)
-                .json({ message: "Admin privileges required" });
-        }
-
-        req.userId = decoded.id;
-        next();
-    });
+  if (!req.user || !req.user.isAdmin) {
+    return res.status(403).json({ message: "Access denied: Admins only." });
+  }
+  next();
 };
 
 export default verifyAdmin;

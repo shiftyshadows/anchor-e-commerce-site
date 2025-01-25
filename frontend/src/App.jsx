@@ -9,14 +9,32 @@ import SignUp from "./components/SignUp"; // Sign-up component
 import SignIn from "./components/SignIn"; // Sign-in component
 import Cart from "./components/Cart"; // Cart page
 import OrderHistory from "./components/OrderHistory"; // Order history page
+import AdminDashboard from "./components/AdminDashboard"; // Admin dashboard component
+import UserDashboard from "./components/UserDashboard"; // User dashboard component
 import { AuthContext } from "./context/AuthContext"; // Authentication context
 import "./styles/App.css"; // Global styles
 
-const App = () => {
-  const { isAuthenticated } = useContext(AuthContext); // Check if user is authenticated
+// Protected Route Wrapper
+const ProtectedRoute = ({ isAdminRoute, children }) => {
+  const { isAuthenticated, isAdmin } = useContext(AuthContext);
 
+  if (!isAuthenticated) {
+    // Redirect to /signin if the user is not authenticated
+    return <Navigate to="/signin" />;
+  }
+
+  if (isAdminRoute && !isAdmin) {
+    // Redirect regular users trying to access admin-only routes
+    return <Navigate to="/user-dashboard" />;
+  }
+
+  // Render the protected route if all conditions are met
+  return children;
+};
+
+const App = () => {
   return (
-    <div>
+    <div className="app">
       {/* Navbar always visible */}
       <Navbar />
 
@@ -36,21 +54,43 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
 
-        {/* Protected Routes */}
-        {isAuthenticated ? (
-          <>
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/order-history" element={<OrderHistory />} />
-          </>
-        ) : (
-          <>
-            {/* Redirect unauthenticated users to /signin */}
-            <Route path="/cart" element={<Navigate to="/signin" />} />
-            <Route path="/order-history" element={<Navigate to="/signin" />} />
-          </>
-        )}
+        {/* Protected Routes for Users */}
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-history"
+          element={
+            <ProtectedRoute>
+              <OrderHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Catch-all route for undefined paths */}
+        {/* Protected Routes for Admins */}
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoute isAdminRoute={true}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch-All Route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
 

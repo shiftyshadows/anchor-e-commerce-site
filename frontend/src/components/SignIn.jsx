@@ -1,49 +1,42 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import API from '../utils/api'; // Utility for Axios instance
-import '../styles/SignIn.css'; // Import the CSS file
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext"; // Authentication context
+import API from "../utils/api"; // Axios instance
+import "../styles/SignIn.css";
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const { login } = useContext(AuthContext); // Access the login method from AuthContext
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
-    e.preventDefault(); // Prevent form reload
+    e.preventDefault();
 
     try {
-      // Make the API call to sign in
       const response = await API.post(
-        '/api/auth/signin',
+        "/api/auth/signin",
         { email, password },
-        { withCredentials: true }
+        { withCredentials: true } // Include cookies for server authentication
       );
 
-      // On successful response, handle token and redirection
       const { token, redirectUrl, message } = response.data;
 
-      // Optionally store the token in localStorage (if needed)
-      if (token) {
-        localStorage.setItem('token', token);
-      }
+      // Save the token using the login method from AuthContext
+      login(token);
 
-      // Redirect based on user role
+      // Navigate to the redirect URL provided by the backend
       if (redirectUrl) {
-        navigate(redirectUrl); // Navigate to the appropriate dashboard
+        navigate(redirectUrl);
       } else {
-        alert(message || 'Login successful! Redirecting...');
-        navigate('/dashboard'); // Default redirection
+        alert(message || "Login successful!");
+        navigate("/user-dashboard"); // Fallback redirect
       }
-    } catch (error) {
-      // Handle API errors
-      if (error.response) {
-        // Server responded with an error
-        setError(error.response.data.message || 'Invalid email or password.');
-      } else {
-        // Network or other errors
-        setError('An error occurred. Please try again later.');
-      }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || "An error occurred. Please try again.";
+      setError(errorMessage);
     }
   };
 
@@ -75,19 +68,10 @@ const SignIn = () => {
               required
             />
           </div>
-          <button type="submit" className="signin-button">Sign In</button>
+          <button type="submit" className="signin-button">
+            Sign In
+          </button>
         </form>
-        <div className="signin-links">
-          <Link to="/forgot-password" className="forgot-password-link">
-            Forgot Password?
-          </Link>
-          <p>
-            Don't have an account?{' '}
-            <Link to="/signup" className="signup-link">
-              Sign Up
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import "../styles/AdminDashboard.css"; // Optional: for styling
 
-const AdminPage = () => {
-    const navigate = useNavigate();
-    const token = localStorage.getItem("authToken");
-
-    useEffect(() => {
-        const verifyAdmin = async () => {
-            try {
-                const res = await axios.get("/api/auth/verify", {
-                    headers: { Authorization: token },
-                });
-
-                if (!res.data.isAdmin) {
-                    navigate("/"); // Redirect if not admin
-                }
-            } catch (err) {
-                navigate("/"); // Redirect on error
-            }
-        };
-
-        verifyAdmin();
-    }, [navigate, token]);
-
-    return (
-        <div>
-            <h1>Admin Dashboard</h1>
-            <p>Welcome, Admin! You can add new products here.</p>
-            {/* Include Product Form Here */}
-        </div>
-    );
+const AdminDashboard = () => {
+  return (
+    <div className="admin-dashboard">
+      <header className="admin-header">
+        <h1>Admin Dashboard</h1>
+      </header>
+      <main className="admin-content">
+        <section className="dashboard-section">
+          <h2>User Management</h2>
+          <p>Manage users, view profiles, and adjust permissions.</p>
+          <button className="admin-btn">View Users</button>
+        </section>
+        <section className="dashboard-section">
+          <h2>Product Management</h2>
+          <p>Manage products, add new items, and update inventory.</p>
+          <button className="admin-btn">Manage Products</button>
+        </section>
+        <section className="dashboard-section">
+          <h2>Order Tracking</h2>
+          <p>Track and manage customer orders.</p>
+          <button className="admin-btn">View Orders</button>
+        </section>
+      </main>
+    </div>
+  );
 };
 
-export default AdminPage;
+export default AdminDashboard;

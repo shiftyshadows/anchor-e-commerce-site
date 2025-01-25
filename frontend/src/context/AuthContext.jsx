@@ -1,31 +1,48 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode"; // Updated import
 
-// Create the AuthContext
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-// AuthProvider component to wrap around your app
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Check if the user is logged in (e.g., token exists)
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token); // Set to true if token exists
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token); // Decode the token
+        setIsAuthenticated(true);
+        setIsAdmin(decoded.isAdmin); // Extract isAdmin flag
+      } catch (error) {
+        console.error("Invalid token:", error);
+        localStorage.removeItem("token");
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
+    }
   }, []);
 
   const login = (token) => {
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
+    const decoded = jwtDecode(token); // Decode the token on login
     setIsAuthenticated(true);
+    setIsAdmin(decoded.isAdmin);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
+    setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export { AuthContext };
+export default AuthProvider;
