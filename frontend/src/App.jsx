@@ -6,7 +6,7 @@ import FeaturedProducts from './components/FeaturedProducts'; // Featured produc
 import About from './components/About'; // About section
 import Footer from './components/Footer'; // Footer section
 import SignupPage from './pages/SignupPage'; // Sign-up page
-import SigninPage from './pages/SigninPage'; // Sign-in page
+import SignIn from './components/SignIn'; // Sign-in component
 import Cart from './components/Cart'; // Cart page
 import OrderHistory from './components/OrderHistory'; // Order history page
 import { AuthContext } from './context/AuthContext'; // Authentication context
@@ -35,7 +35,7 @@ const App = () => {
           }
         />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/signin" element={<SigninPage />} />
+        <Route path="/signin" element={<SignIn />} />
 
         {/* Protected Routes */}
         {isAuthenticated ? (
