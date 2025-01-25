@@ -85,8 +85,15 @@ router.post("/signin", async (req, res) => {
       secure: process.env.NODE_ENV === "production", // Secure cookies in production
     });
 
-    // Respond with user role
-    res.status(200).json({ isAdmin: user.isAdmin });
+    // Determine redirect URL based on role
+    const redirectUrl = user.isAdmin ? "/admin-dashboard" : "/user-dashboard";
+
+    // Respond with user role and redirect URL
+    res.status(200).json({
+      message: "Login successful.",
+      isAdmin: user.isAdmin,
+      redirectUrl,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error. Please try again later." });
@@ -94,3 +101,4 @@ router.post("/signin", async (req, res) => {
 });
 
 export default router;
+
