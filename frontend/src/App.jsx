@@ -5,7 +5,7 @@ import Intro from './components/Intro'; // Intro section
 import FeaturedProducts from './components/FeaturedProducts'; // Featured products section
 import About from './components/About'; // About section
 import Footer from './components/Footer'; // Footer section
-import SignupPage from './pages/SignupPage'; // Sign-up page
+import SignUp from './components/SignUp'; // Sign-up component
 import SignIn from './components/SignIn'; // Sign-in component
 import Cart from './components/Cart'; // Cart page
 import OrderHistory from './components/OrderHistory'; // Order history page
@@ -34,7 +34,7 @@ const App = () => {
             </>
           }
         />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
 
         {/* Protected Routes */}
