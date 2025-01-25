@@ -1,8 +1,11 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/User.js"; // Adjust the path based on your project structure
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 const router = express.Router();
+const SECRET_KEY = process.env.SECRET_KEY || 'your_secret_key'; // Use env variable
 
 // Signup route
 router.post("/signup", async (req, res) => {
@@ -48,4 +51,39 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// POST: /api/auth/signin
+router.post('/signin', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password.' });
+    }
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid email or password.' });
+    }
+
+    // Generate token
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, SECRET_KEY, {
+      expiresIn: '1h',
+    });
+
+    // Send token as a cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+    });
+
+    // Respond with user role
+    res.status(200).json({ isAdmin: user.isAdmin });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+});
 export default router;
