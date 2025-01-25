@@ -2,10 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import path from "path";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 // import signupRoutes from "./routes/auth.js"; // Adjust the path
-import cors from "cors";
 
 dotenv.config();
 const app = express();
@@ -13,12 +14,13 @@ const PORT = process.env.PORT || 5000;
 
 // Allow requests from the frontend origin
 app.use(cors({
-  origin: "http://localhost:3000", // Frontend URL
+  origin: process.env.FRONTEND_URL, // Frontend URL
   credentials: true,
 }));
 
 // Middleware to parse JSON
 app.use(express.json());
+app.use(cookieParser()); // Parse cookies from incoming requests
 
 // API Routes
 // app.use("/api/auth", signupRoutes);
