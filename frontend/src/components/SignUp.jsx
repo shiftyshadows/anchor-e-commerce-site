@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/SignUp.css";
+import API from "../utils/api";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/auth/signup", formData);
+      const res = await API.post("/api/auth/signup", formData);
       const { isAdmin } = res.data;
 
       if (isAdmin) {

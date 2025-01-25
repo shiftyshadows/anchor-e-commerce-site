@@ -14,10 +14,16 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Check if the email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    // Check if the email is already registered
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
       return res.status(400).json({ message: "Email already registered." });
+    }
+
+    // Check if the username is already taken
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: "Username already taken." });
     }
 
     // Hash the password

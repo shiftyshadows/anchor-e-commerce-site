@@ -4,15 +4,24 @@ import mongoose from "mongoose";
 import path from "path";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
+// import signupRoutes from "./routes/auth.js"; // Adjust the path
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Allow requests from the frontend origin
+app.use(cors({
+  origin: "http://localhost:3000", // Frontend URL
+  credentials: true,
+}));
+
 // Middleware to parse JSON
 app.use(express.json());
 
 // API Routes
+// app.use("/api/auth", signupRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 
