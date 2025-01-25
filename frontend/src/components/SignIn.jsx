@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/SignIn.css'; // Import the CSS file
+import API from "../utils/api";
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/signin', { email, password }, { withCredentials: true });
+      const response = await API.post('/api/auth/signin', { email, password }, { withCredentials: true });
       const { isAdmin } = response.data;
 
       if (isAdmin) {
