@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/SignUp.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
     password: "",
+    username: "",
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -44,20 +44,6 @@ const Signup = () => {
         {error && <p className="signup-error">{error}</p>}
 
         <form onSubmit={handleSignup} className="signup-form">
-          {/* Username Field */}
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Enter your username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
           {/* Email Field */}
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -86,6 +72,20 @@ const Signup = () => {
             />
           </div>
 
+          {/* Username Field */}
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           {/* Submit Button */}
           <button type="submit" className="signup-button">
             Sign Up
@@ -95,9 +95,9 @@ const Signup = () => {
         <div className="signup-links">
           <p>
             Already have an account?{" "}
-            <a href="/signin" className="login-link">
+            <Link to="/signin" className="login-link">
               Log In
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -1,12 +1,19 @@
-import express from 'express';
-import { getAllProducts, createProduct } from '../controllers/productController.js';
+import express from "express";
+import Product from "../models/Product.js";
+import verifyAdmin from "../middlewares/verifyAdmin.js";
 
 const router = express.Router();
 
-// GET /api/products - Get all products
-router.get('/', getAllProducts);
+router.post("/admin/product", verifyAdmin, async (req, res) => {
+    const { name, description, price, category } = req.body;
 
-// POST /api/products - Create a new product
-router.post('/', createProduct);
+    try {
+        const newProduct = new Product({ name, description, price, category });
+        await newProduct.save();
+        res.status(201).json({ message: "Product added successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 export default router;
