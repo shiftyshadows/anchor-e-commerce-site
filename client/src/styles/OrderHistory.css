@@ -1,0 +1,48 @@
+.order-history-container {
+  padding: 2rem;
+  background: #f9f9f9;
+  min-height: 100vh;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-item {
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-item h4 {
+  font-size: 1.2rem;
+  color: #007bff;
+  margin-bottom: 0.5rem;
+}
+
+.order-item p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.order-item ul {
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+  color: #333;
+}
+
+.order-item ul li {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}

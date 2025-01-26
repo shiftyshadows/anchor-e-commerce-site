@@ -18,7 +18,9 @@
     "short-uuid": "^5.2.0",
     "argon2":"^0.41.1",
     "cors":"^2.8.5",
-    "cookie-parser": "^1.4.7"
+    "cookie-parser": "^1.4.7",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
