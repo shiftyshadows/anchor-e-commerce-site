@@ -19,7 +19,10 @@ const AddProduct = React.lazy(() => import("./components/AddProducts"));
 const ViewProducts = React.lazy(() => import("./components/ViewProducts"));
 const EditProduct = React.lazy(() => import("./components/EditProduct"));
 const UserDashboard = React.lazy(() => import("./components/UserDashboard"));
-const ContactUs = React.lazy(() => import("./components/ContactUs")); // Contact Us component
+const ContactUs = React.lazy(() => import("./components/ContactUs"));
+const AdminOrderTracking = React.lazy(() =>
+  import("./components/AdminOrderTracking")
+);
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ isAdminRoute, children }) => {
@@ -154,6 +157,15 @@ const App = () => {
                 <ProtectedRoute isAdminRoute={true}>
                   {useDynamicTitle("Edit Product")}
                   <EditProduct />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-dashboard/order-tracking"
+              element={
+                <ProtectedRoute isAdminRoute={true}>
+                  {useDynamicTitle("Order Tracking")}
+                  <AdminOrderTracking />
                 </ProtectedRoute>
               }
             />
