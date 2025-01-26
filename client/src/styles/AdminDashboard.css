@@ -1,0 +1,130 @@
+/* General Admin Dashboard Styles */
+.admin-dashboard {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+.admin-header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* Content Layout */
+.admin-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* KPI Section */
+.admin-kpis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.kpi {
+  flex: 1 1 calc(25% - 1.5rem);
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kpi h3 {
+  font-size: 1rem;
+  color: #333;
+}
+
+.kpi p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+  margin: 0.5rem 0 0;
+}
+
+/* Section Styles */
+.dashboard-section {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+/* Button Styles */
+.admin-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Notification List */
+.admin-notifications ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-notifications li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  color: #555;
+}
+
+.admin-notifications li:last-child {
+  border-bottom: none;
+}

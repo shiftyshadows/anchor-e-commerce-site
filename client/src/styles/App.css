@@ -1,0 +1,101 @@
+/* styles/App.css */
+
+:root {
+  --primary-color: #4f46e5; /* Indigo for primary theme */
+  --secondary-color: #6366f1; /* Light indigo */
+  --font-family: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  text-decoration: none;
+  margin-right: 1rem;
+  color: white;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Layout utilities */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Specific Components */
+.featured-products {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.intro, .about, .footer {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Footer */
+.footer {
+  background-color: #1f2937;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    margin-top: 0.5rem;
+  }
+}
