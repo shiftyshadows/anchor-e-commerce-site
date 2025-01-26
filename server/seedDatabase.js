@@ -22,7 +22,7 @@ const computerItems = [
     description: "High-performance laptop with NVIDIA RTX graphics card.",
     stock: 20,
     featured: true,
-    image: path.join(imagePath, "gaming-laptop.jpg"),
+    image: path.join(imagePath, "rog_strix.png"),
   },
   {
     name: "Wireless Mouse",
@@ -37,7 +37,7 @@ const computerItems = [
     price: 89.99,
     description: "RGB mechanical keyboard with customizable switches.",
     stock: 30,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "mechanical-keyboard.jpg"),
   },
   {
@@ -46,15 +46,15 @@ const computerItems = [
     description: "27-inch UHD monitor with HDR support.",
     stock: 15,
     featured: true,
-    image: path.join(imagePath, "4k-monitor.jpg"),
+    image: path.join(imagePath, "uhd_monitor.png"),
   },
   {
     name: "External SSD",
     price: 119.99,
     description: "1TB portable SSD with USB 3.1.",
     stock: 40,
-    featured: false,
-    image: path.join(imagePath, "external-ssd.jpg"),
+    featured: true,
+    image: path.join(imagePath, "hard-drive.jpeg"),
   },
   {
     name: "Gaming Chair",
@@ -77,7 +77,7 @@ const computerItems = [
     price: 699.99,
     description: "NVIDIA RTX 3080 graphics card with 10GB VRAM.",
     stock: 5,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "graphics-card.jpg"),
   },
   {
@@ -85,7 +85,7 @@ const computerItems = [
     price: 329.99,
     description: "Intel Core i7 11th Gen Processor with 8 cores.",
     stock: 25,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "processor.jpg"),
   },
   {
@@ -117,7 +117,7 @@ const computerItems = [
     price: 159.99,
     description: "Spacious gaming desk with cable management.",
     stock: 8,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "gaming-desk.jpg"),
   },
   {
@@ -141,7 +141,7 @@ const computerItems = [
     price: 69.99,
     description: "16GB DDR4 RAM with RGB lighting.",
     stock: 40,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "ram.jpg"),
   },
   {
@@ -165,7 +165,7 @@ const computerItems = [
     price: 129.99,
     description: "Bluetooth soundbar with rich bass.",
     stock: 18,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "soundbar.jpg"),
   },
   {
@@ -197,7 +197,7 @@ const computerItems = [
     price: 89.99,
     description: "2TB external hard drive for backup and storage.",
     stock: 50,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "hard-drive.jpg"),
   },
   {
@@ -221,7 +221,7 @@ const computerItems = [
     price: 34.99,
     description: "Adjustable laptop stand for ergonomic comfort.",
     stock: 30,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "laptop-stand.jpg"),
   },
   {
@@ -229,7 +229,7 @@ const computerItems = [
     price: 799.99,
     description: "Compact all-in-one desktop with 24-inch display.",
     stock: 10,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "all-in-one-desktop.jpg"),
   },
   {
@@ -245,7 +245,7 @@ const computerItems = [
     price: 49.99,
     description: "Dual-band Wi-Fi extender for better coverage.",
     stock: 25,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "wifi-extender.jpg"),
   },
   {
@@ -261,8 +261,8 @@ const computerItems = [
     price: 59.99,
     description: "Wireless gaming controller with haptic feedback.",
     stock: 35,
-    featured: false,
-    image: path.join(imagePath, "gaming-controller.jpg"),
+    featured: true,
+    image: path.join(imagePath, "ps5-pad.png"),
   },
   {
     name: "Headphone Stand",
@@ -277,7 +277,7 @@ const computerItems = [
     price: 129.99,
     description: "Voice-controlled smart speaker with integrated AI assistant.",
     stock: 20,
-    featured: true,
+    featured: false,
     image: path.join(imagePath, "smart-speaker.jpg"),
   },
   {
