@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; // Access authentication state
 import "../styles/components.css"; // Import styles
 
 const Navbar = () => {
   const { isAuthenticated, isAdmin, logout } = useContext(AuthContext); // Destructure auth state and logout function
+  const [activeDropdown, setActiveDropdown] = useState(null); // State to manage active dropdowns
+
+  const toggleDropdown = (dropdown) => {
+    setActiveDropdown((prev) => (prev === dropdown ? null : dropdown));
+  };
 
   return (
     <nav className="navbar">
@@ -27,11 +32,36 @@ const Navbar = () => {
                   <Link to="/admin-dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <Link to="/admin-dashboard/user-management">User Management</Link>
+                  <Link to="/admin-dashboard/user-management">
+                    User Management
+                  </Link>
                 </li>
-                <li>
-                  <Link to="/admin-dashboard/product-management">Product Management</Link>
+
+                {/* Product Management Dropdown */}
+                <li
+                  className="dropdown"
+                  onMouseEnter={() => toggleDropdown("productManagement")}
+                  onMouseLeave={() => toggleDropdown("productManagement")}
+                >
+                  <button className="dropdown-toggle">
+                    Product Management
+                  </button>
+                  {activeDropdown === "productManagement" && (
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link to="/admin-dashboard/product-management/add">
+                          Add Product
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/admin-dashboard/product-management/view">
+                          View Products
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
+
                 <li>
                   <Link to="/admin-dashboard/order-tracking">Order Tracking</Link>
                 </li>
