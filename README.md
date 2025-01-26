@@ -1,142 +1,172 @@
-# alx-webstack-portfolio-project
-# E-commerce Website for Computer Items
+# Anchor E-Commerce Site
 
-This project is an e-commerce website designed to sell computer items and accept payments in Litecoin. It is built with React for the frontend and Node.js for the backend.
+This project is an e-commerce website built to provide an efficient shopping experience for computer products. The application is designed to facilitate Litecoin payments and features a modern tech stack.
 
 ## Table of Contents
+
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Project Structure](#project-structure)
 - [Usage Guidelines](#usage-guidelines)
 - [Future Enhancements](#future-enhancements)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
 ## Features
 
-### Frontend
-- Dynamic product listing.
-- Search and filter functionality.
-- Shopping cart with add/remove/update functionality.
-- Responsive design.
+### User Features
+- **Dynamic Product Catalog**: Browse through an array of computer products with detailed descriptions and pricing.
+- **Search and Filter**: Easily find products using search and filter options.
+- **Shopping Cart**: Add, update, and remove products dynamically.
+- **Secure Authentication**: JWT-based sign-up, login, and logout functionalities.
+- **Order History**: Track previous orders and view their statuses.
+
+### Admin Features
+- **Admin Dashboard**: Manage users, products, and orders efficiently.
+- **Notifications**: Get updates on low inventory, pending orders, and user activities.
 
 ### Payment Integration
-- Litecoin payment support using Coinbase Commerce API.
-
-### Backend
-- RESTful API for products and orders.
-- User authentication.
-- Order and inventory management.
+- **Litecoin Support**: Pay securely through integrated cryptocurrency payments.
 
 ---
 
 ## Tech Stack
 
 ### Frontend
-- React
-- React Router
-- Axios
-- Bootstrap
+- **React**: For building user interfaces.
+- **React Router**: For client-side routing.
+- **Axios**: For API requests.
+- **Bootstrap**: For responsive design.
 
 ### Backend
-- Node.js (Express)
-- PostgreSQL (Sequelize ORM)
-- Coinbase Commerce API
+- **Node.js**: JavaScript runtime for server-side development.
+- **Express.js**: Web application framework for Node.js.
+- **MongoDB**: NoSQL database for managing data.
+- **JWT**: Secure token-based authentication.
+
+### DevOps
+- **Docker**: For containerized deployments.
+- **Jenkins**: To automate CI/CD pipelines.
+- **GitHub**: For version control and collaboration.
 
 ---
 
 ## Setup Instructions
 
 ### Prerequisites
-1. Install [Node.js](https://nodejs.org/).
-2. Install [PostgreSQL](https://www.postgresql.org/).
-3. Clone the repository:
+- **Node.js** (v14 or later)
+- **MongoDB** (v4.0 or later)
+- **Docker** (optional for deployment)
+- **Coinbase Commerce Account** (for Litecoin integration)
+
+### Installation
+
+1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd ecommerce-site
+   git clone https://github.com/shiftyshadows/anchor-e-commerce-site.git
+   cd anchor-e-commerce-site
    ```
 
-### Frontend Setup
-1. Navigate to the frontend directory:
+2. Install Backend Dependencies:
    ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
+   cd server
    npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm start
    ```
 
-### Backend Setup
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up environment variables in a `.env` file:
+3. Configure Backend Environment Variables:
+   Create a `.env` file in the `server` directory with the following variables:
    ```env
-   DATABASE_URL=postgres://<username>:<password>@localhost:5432/<database_name>
-   COINBASE_API_KEY=<your-coinbase-api-key>
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   COINBASE_API_KEY=your_coinbase_api_key
    ```
-4. Run database migrations (if using Sequelize):
-   ```bash
-   npx sequelize-cli db:migrate
-   ```
-5. Start the server:
+
+4. Start the Backend Server:
    ```bash
    npm start
    ```
+
+5. Install Frontend Dependencies:
+   ```bash
+   cd ../client
+   npm install
+   ```
+
+6. Configure Frontend Environment Variables:
+   Create a `.env` file in the `client` directory with:
+   ```env
+   REACT_APP_API_URL=http://localhost:5000
+   ```
+
+7. Start the Frontend Application:
+   ```bash
+   npm start
+   ```
+
+8. Open the Application:
+   Navigate to `http://localhost:3000` in your browser.
 
 ---
 
 ## Project Structure
 
 ```
-ecommerce-site/
-├── frontend/
-│   ├── public/            # Static assets
-│   ├── src/               # Main application code
-│   │   ├── components/    # Reusable components
-│   │   ├── pages/         # Page components
-│   │   ├── App.js         # Root component
-│   │   └── index.js       # Entry point
-│   ├── package.json       # Frontend dependencies
-├── backend/
-│   ├── models/            # Database models
-│   ├── routes/            # API routes
-│   ├── controllers/       # Logic for API endpoints
-│   ├── server.js          # Server entry point
-│   ├── package.json       # Backend dependencies
-├── README.md              # Project documentation
-└── ...
+anchor-e-commerce-site/
+├── client/                 # Frontend application
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       ├── services/
+│       ├── App.js
+│       └── index.js
+├── server/                 # Backend application
+│   ├── config/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── app.js
+├── .gitignore
+├── README.md
+└── package.json
 ```
 
 ---
 
 ## Usage Guidelines
 
-### Starting the Application
-1. Run both the frontend and backend servers.
-2. Access the application at `http://localhost:3000`.
-
-### Testing Payments
-Use Coinbase Commerce's test mode to simulate Litecoin payments without real transactions.
+1. **Sign Up or Sign In**:
+   Users must register or log in to access personalized features.
+2. **Browse Products**:
+   Explore a variety of computer products and add desired items to the cart.
+3. **Checkout**:
+   Proceed to checkout and pay using Litecoin.
+4. **Order Tracking**:
+   Monitor the status of your past and current orders.
 
 ---
 
 ## Future Enhancements
-- Add user authentication with JWT.
-- Implement advanced filtering and sorting for products.
-- Add order tracking and notifications.
-- Integrate real-time Litecoin price conversions.
+
+- **Multiple Payment Options**: Support for more cryptocurrencies and traditional payment methods.
+- **Order Notifications**: Real-time alerts for order updates.
+- **Enhanced Admin Tools**: Analytics and better user management tools.
+- **Mobile App**: Native applications for Android and iOS platforms.
 
 ---
 
-Feel free to contribute by submitting pull requests or reporting issues!
+## Contributing
+
+We welcome contributions! Fork the repository, create a feature branch, and submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
