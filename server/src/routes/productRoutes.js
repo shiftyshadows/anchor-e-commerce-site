@@ -1,125 +1,157 @@
-import express from 'express';
-import Product from '../models/Product.js';
+import express from "express";
+import Product from "../models/Product.js";
 
 const router = express.Router();
 
 /**
- * @route   POST /api/products
- * @desc    Create a new product
- */
-router.post('/', async (req, res) => {
-  const { name, price, description, featured, image, stock } = req.body;
-
-  try {
-    // Format price with currency
-    const formattedPrice = `Ksh ${price}`;
-    const product = new Product({ name, price: formattedPrice, description, featured, image, stock });
-    const savedProduct = await product.save();
-    res.status(201).json(savedProduct);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to create product', error: error.message });
-  }
-});
-
-/**
  * @route   GET /api/products
- * @desc    Fetch all products
+ * @desc    Fetch all products with pagination and optional filtering
+ * @access  Public
  */
-router.get('/', async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch products', error: error.message });
-  }
-});
-
-/**
- * @route   GET /api/products/featured
- * @desc    Fetch featured products with stock > 0
- */
-router.get('/featured', async (req, res) => {
-  try {
-    const featuredProducts = await Product.find({ featured: true, stock: { $gt: 0 } });
-    res.status(200).json(featuredProducts);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch featured products', error: error.message });
-  }
-});
-
-/**
- * @route   PATCH /api/products/:id/stock
- * @desc    Update stock level of a product
- */
-router.patch('/:id/stock', async (req, res) => {
-  const { id } = req.params;
-  const { stock } = req.body;
+router.get("/", async (req, res) => {
+  const { page = 1, limit = 10, featured } = req.query;
 
   try {
-    const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const query = featured ? { featured: featured === "true" } : {};
+    const skip = (page - 1) * limit;
 
-    product.stock = stock;
-    if (stock === 0) product.featured = false; // Automatically unset featured if stock is 0
+    const products = await Product.find(query)
+      .skip(skip)
+      .limit(parseInt(limit))
+      .sort({ createdAt: -1 }) // Optional: Sort by creation date (newest first)
+      .lean(); // Convert documents to plain JavaScript objects
 
-    const updatedProduct = await product.save();
-    res.status(200).json(updatedProduct);
+    const transformedProducts = products.map((product) => ({
+      ...product,
+      id: product._id, // Add `id` field
+      _id: undefined, // Remove `_id` field
+    }));
+
+    const totalProducts = await Product.countDocuments(query);
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    res.status(200).json({
+      products: transformedProducts,
+      currentPage: parseInt(page),
+      totalPages,
+      totalProducts,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update stock', error: error.message });
-  }
-});
-
-/**
- * @route   PATCH /api/products/:id/price
- * @desc    Update the price of a product
- */
-router.patch('/:id/price', async (req, res) => {
-  const { id } = req.params;
-  const { price } = req.body;
-
-  try {
-    const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
-
-    product.price = `Ksh ${price}`; // Format price with currency
-    const updatedProduct = await product.save();
-    res.status(200).json(updatedProduct);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to update price', error: error.message });
+    res.status(500).json({ message: "Error fetching products", error });
   }
 });
 
 /**
  * @route   GET /api/products/:id
- * @desc    Fetch details of a single product
+ * @desc    Fetch a single product by MongoDB _id
+ * @access  Public
  */
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-
+router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const product = await Product.findById(req.params.id).lean(); // Convert to plain JavaScript object
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Transform _id to id
+    product.id = product._id;
+    delete product._id;
 
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch product', error: error.message });
+    res.status(500).json({ message: "Error fetching product", error });
+  }
+});
+
+/**
+ * @route   POST /api/products
+ * @desc    Add a new product
+ * @access  Private (Admin)
+ */
+router.post("/", async (req, res) => {
+  const { name, description, price, stock, image, featured } = req.body;
+
+  try {
+    const newProduct = new Product({
+      name,
+      description,
+      price,
+      stock,
+      image,
+      featured: featured || false,
+    });
+
+    const savedProduct = await newProduct.save();
+
+    // Transform _id to id
+    const transformedProduct = {
+      ...savedProduct.toObject(),
+      id: savedProduct._id,
+      _id: undefined,
+    };
+
+    res.status(201).json(transformedProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Error adding product", error });
+  }
+});
+
+/**
+ * @route   PUT /api/products/:id
+ * @desc    Update an existing product by MongoDB _id
+ * @access  Private (Admin)
+ */
+router.put("/:id", async (req, res) => {
+  const { name, description, price, stock, image, featured } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        description,
+        price,
+        stock,
+        image,
+        featured,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Transform _id to id
+    const transformedProduct = {
+      ...updatedProduct.toObject(),
+      id: updatedProduct._id,
+      _id: undefined,
+    };
+
+    res.status(200).json(transformedProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating product", error });
   }
 });
 
 /**
  * @route   DELETE /api/products/:id
- * @desc    Delete a product by its ID
+ * @desc    Delete a product by MongoDB _id
+ * @access  Private (Admin)
  */
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-
+router.delete("/:id", async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({ message: 'Product deleted successfully' });
+    if (!deletedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(204).send(); // No content response
   } catch (error) {
-    res.status(500).json({ message: 'Failed to delete product', error: error.message });
+    res.status(500).json({ message: "Error deleting product", error });
   }
 });
 

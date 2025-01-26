@@ -5,15 +5,15 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
-import productRoutes from "./routes/products.js";
+import productRoutes from "./routes/productRoutes.js";
 import { fileURLToPath } from "url";
 
 // Initialize environment variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const NODE_ENV = process.env.NODE_ENV || "development";
+const PORT = process.env.PORT;
+const NODE_ENV = process.env.NODE_ENV;
 
 // Resolve __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
