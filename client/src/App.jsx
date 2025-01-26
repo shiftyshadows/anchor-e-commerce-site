@@ -1,127 +1,159 @@
-import React, { useContext } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./components/Navbar"; // Navigation bar
-import Intro from "./components/Intro"; // Intro section
-import FeaturedProducts from "./components/FeaturedProducts"; // Featured products section
-import About from "./components/About"; // About section
-import Footer from "./components/Footer"; // Footer section
-import SignUp from "./components/SignUp"; // Sign-up component
-import SignIn from "./components/SignIn"; // Sign-in component
-import Cart from "./components/Cart"; // Cart page
-import OrderHistory from "./components/OrderHistory"; // Order history page
-import AdminDashboard from "./components/AdminDashboard"; // Admin dashboard component
-import AddProduct from "./components/AddProducts"; // Add Product component
-import ViewProducts from "./components/ViewProducts"; // View Products component
-import EditProduct from "./components/EditProduct"; // Edit Product component
-import UserDashboard from "./components/UserDashboard"; // User dashboard component
-import { AuthContext } from "./context/AuthContext"; // Authentication context
-import "./styles/App.css"; // Global styles
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { AuthContext } from "./context/AuthContext";
+import ErrorBoundary from "./components/ErrorBoundary"; // Error boundary for graceful error handling
+import "./styles/App.css";
+
+// Lazy-loaded components
+const Intro = React.lazy(() => import("./components/Intro"));
+const FeaturedProducts = React.lazy(() => import("./components/FeaturedProducts"));
+const About = React.lazy(() => import("./components/About"));
+const SignUp = React.lazy(() => import("./components/SignUp"));
+const SignIn = React.lazy(() => import("./components/SignIn"));
+const Cart = React.lazy(() => import("./components/Cart"));
+const OrderHistory = React.lazy(() => import("./components/OrderHistory"));
+const AdminDashboard = React.lazy(() => import("./components/AdminDashboard"));
+const AddProduct = React.lazy(() => import("./components/AddProducts"));
+const ViewProducts = React.lazy(() => import("./components/ViewProducts"));
+const EditProduct = React.lazy(() => import("./components/EditProduct"));
+const UserDashboard = React.lazy(() => import("./components/UserDashboard"));
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ isAdminRoute, children }) => {
   const { isAuthenticated, isAdmin } = useContext(AuthContext);
 
   if (!isAuthenticated) {
-    // Redirect to /signin if the user is not authenticated
     return <Navigate to="/signin" />;
   }
 
   if (isAdminRoute && !isAdmin) {
-    // Redirect regular users trying to access admin-only routes
     return <Navigate to="/user-dashboard" />;
   }
 
-  // Render the protected route if all conditions are met
   return children;
+};
+
+// Dynamic Title Update
+const useDynamicTitle = (title) => {
+  useEffect(() => {
+    document.title = title ? `${title} | Anchor E-Commerce` : "Anchor E-Commerce";
+  }, [title]);
 };
 
 const App = () => {
   return (
     <div className="app">
-      {/* Navbar always visible */}
       <Navbar />
 
-      {/* Define Routes */}
-      <Routes>
-        {/* Public Routes */}
-        <Route
-          path="/"
-          element={
-            <>
-              <Intro />
-              <FeaturedProducts />
-              <About />
-            </>
-          }
-        />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
+      <ErrorBoundary>
+        <Suspense fallback={<div className="loading">Loading...</div>}>
+          <Routes>
+            {/* Public Routes */}
+            <Route
+              path="/"
+              element={
+                <>
+                  {useDynamicTitle("Home")}
+                  <Intro />
+                  <FeaturedProducts />
+                  <About />
+                </>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <>
+                  {useDynamicTitle("Sign Up")}
+                  <SignUp />
+                </>
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <>
+                  {useDynamicTitle("Sign In")}
+                  <SignIn />
+                </>
+              }
+            />
 
-        {/* Protected Routes for Users */}
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/order-history"
-          element={
-            <ProtectedRoute>
-              <OrderHistory />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user-dashboard"
-          element={
-            <ProtectedRoute>
-              <UserDashboard />
-            </ProtectedRoute>
-          }
-        />
+            {/* Protected Routes for Users */}
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  {useDynamicTitle("Your Cart")}
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-history"
+              element={
+                <ProtectedRoute>
+                  {useDynamicTitle("Order History")}
+                  <OrderHistory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-dashboard"
+              element={
+                <ProtectedRoute>
+                  {useDynamicTitle("User Dashboard")}
+                  <UserDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* Protected Routes for Admins */}
-        <Route
-          path="/admin-dashboard"
-          element={
-            <ProtectedRoute isAdminRoute={true}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin-dashboard/product-management/add"
-          element={
-            <ProtectedRoute isAdminRoute={true}>
-              <AddProduct />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin-dashboard/product-management/view"
-          element={
-            <ProtectedRoute isAdminRoute={true}>
-              <ViewProducts />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin-dashboard/product-management/edit/:id"
-          element={
-            <ProtectedRoute isAdminRoute={true}>
-              <EditProduct />
-            </ProtectedRoute>
-          }
-        />
+            {/* Protected Routes for Admins */}
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute isAdminRoute={true}>
+                  {useDynamicTitle("Admin Dashboard")}
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-dashboard/product-management/add"
+              element={
+                <ProtectedRoute isAdminRoute={true}>
+                  {useDynamicTitle("Add Product")}
+                  <AddProduct />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-dashboard/product-management/view"
+              element={
+                <ProtectedRoute isAdminRoute={true}>
+                  {useDynamicTitle("View Products")}
+                  <ViewProducts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-dashboard/product-management/edit/:id"
+              element={
+                <ProtectedRoute isAdminRoute={true}>
+                  {useDynamicTitle("Edit Product")}
+                  <EditProduct />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* Catch-All Route */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+            {/* Catch-All Route */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
 
-      {/* Footer always visible */}
       <Footer />
     </div>
   );
