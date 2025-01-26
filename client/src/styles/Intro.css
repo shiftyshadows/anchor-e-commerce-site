@@ -1,0 +1,26 @@
+.intro {
+  background-image: url('../images/banner-image.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.intro div {
+  max-width: 80%;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  color: #666;
+}
