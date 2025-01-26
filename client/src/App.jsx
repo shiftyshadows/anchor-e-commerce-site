@@ -12,6 +12,7 @@ import OrderHistory from "./components/OrderHistory"; // Order history page
 import AdminDashboard from "./components/AdminDashboard"; // Admin dashboard component
 import AddProduct from "./components/AddProducts"; // Add Product component
 import ViewProducts from "./components/ViewProducts"; // View Products component
+import EditProduct from "./components/EditProduct"; // Edit Product component
 import UserDashboard from "./components/UserDashboard"; // User dashboard component
 import { AuthContext } from "./context/AuthContext"; // Authentication context
 import "./styles/App.css"; // Global styles
@@ -104,6 +105,14 @@ const App = () => {
           element={
             <ProtectedRoute isAdminRoute={true}>
               <ViewProducts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-dashboard/product-management/edit/:id"
+          element={
+            <ProtectedRoute isAdminRoute={true}>
+              <EditProduct />
             </ProtectedRoute>
           }
         />

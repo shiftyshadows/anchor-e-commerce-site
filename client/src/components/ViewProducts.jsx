@@ -42,7 +42,7 @@ const ViewProducts = () => {
   };
 
   const navigateToEditProduct = (id) => {
-    navigate(`/products/edit/${id}`); // Redirect to EditProduct page with the product ID
+    navigate(`/admin-dashboard/product-management/edit/${id}`); // Redirect to EditProduct page with the product ID
   };
 
   return (
