@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import AuthProvider from "./context/AuthContext"; // Default import for AuthProvider
+import AuthProvider from "./context/AuthContext"; // Authentication context provider
+import { CartProvider } from "./context/CartContext"; // Cart context provider
 import App from "./App"; // Main App component
 import "./styles/App.css"; // Global styles
 
@@ -19,7 +20,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
     </AuthProvider>
   </React.StrictMode>
 );

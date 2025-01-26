@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import API from "../utils/api";
+import { FaImage } from "react-icons/fa"; // Fallback image icon
 import "../styles/UserDashboard.css";
 
 const UserDashboard = () => {
@@ -42,6 +43,16 @@ const UserDashboard = () => {
     }
   };
 
+  const getImagePath = (imageName) => {
+    try {
+      // Dynamically require the image
+      return require(`../images/${imageName}`);
+    } catch (err) {
+      // Return null if image not found
+      return null;
+    }
+  };
+
   return (
     <div className="user-dashboard">
       <h1>User Dashboard</h1>
@@ -51,31 +62,40 @@ const UserDashboard = () => {
         {products.map((product) => (
           <div key={product.id} className="product-tile">
             <div className="product-image-container">
-              <img
-                src={`/images/${product.image || "default.jpg"}`}
-                alt={product.name}
-                className="product-image"
-              />
+              {getImagePath(product.image) ? (
+                <img
+                  src={getImagePath(product.image)}
+                  alt={product.name}
+                  className="product-image"
+                />
+              ) : (
+                <div className="empty-picture">
+                  <FaImage size={50} />
+                  <p>No Image Available</p>
+                </div>
+              )}
             </div>
-            <div className="product-details">
-              <h3 className="product-name">{product.name}</h3>
-              <p className="product-price">${product.price.toFixed(2)}</p>
-              <p className="product-description">{product.description || "No description available."}</p>
-            </div>
-            <div className="product-actions">
-              <input
-                type="number"
-                min="1"
-                value={quantities[product.id] || 1}
-                onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                className="quantity-input"
-              />
-              <button
-                className="add-to-cart-button"
-                onClick={() => handleAddToCart(product)}
-              >
-                Add to Cart
-              </button>
+            <div className="product-info-container">
+              <div className="product-details">
+                <h3 className="product-name">{product.name}</h3>
+                <p className="product-price">${product.price.toFixed(2)}</p>
+                <p className="product-description">{product.description || "No description available."}</p>
+              </div>
+              <div className="product-actions">
+                <input
+                  type="number"
+                  min="1"
+                  value={quantities[product.id] || 1}
+                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                  className="quantity-input"
+                />
+                <button
+                  className="add-to-cart-button"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
         ))}
