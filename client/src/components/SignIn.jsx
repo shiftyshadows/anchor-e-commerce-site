@@ -21,18 +21,13 @@ const SignIn = () => {
         { withCredentials: true } // Include cookies for server authentication
       );
 
-      const { token, redirectUrl, message } = response.data;
+      const { token, redirectUrl } = response.data;
 
       // Save the token using the login method from AuthContext
       login(token);
 
-      // Navigate to the redirect URL provided by the backend
-      if (redirectUrl) {
-        navigate(redirectUrl);
-      } else {
-        alert(message || "Login successful!");
-        navigate("/user-dashboard"); // Fallback redirect
-      }
+      // Navigate to the redirect URL provided by the backend or fallback to the user dashboard
+      navigate(redirectUrl || "/user-dashboard");
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || "An error occurred. Please try again.";

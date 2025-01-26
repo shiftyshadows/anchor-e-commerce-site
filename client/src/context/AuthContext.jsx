@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode"; // Updated import
+import { jwtDecode } from "jwt-decode"; // Correct named import
 
 const AuthContext = createContext();
 
@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
       try {
         const decoded = jwtDecode(token); // Decode the token
         setIsAuthenticated(true);
-        setIsAdmin(decoded.isAdmin); // Extract isAdmin flag
+        setIsAdmin(decoded.isAdmin || false); // Safeguard for undefined isAdmin
       } catch (error) {
         console.error("Invalid token:", error);
         localStorage.removeItem("token");
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem("token", token);
     const decoded = jwtDecode(token); // Decode the token on login
     setIsAuthenticated(true);
-    setIsAdmin(decoded.isAdmin);
+    setIsAdmin(decoded.isAdmin || false);
   };
 
   const logout = () => {

@@ -21,6 +21,9 @@ const Navbar = () => {
         <li>
           <Link to="/">Home</Link>
         </li>
+        <li>
+          <Link to="/contact-us">Contact Us</Link> {/* Contact Us link */}
+        </li>
 
         {/* Authenticated User Links */}
         {isAuthenticated ? (
@@ -61,7 +64,6 @@ const Navbar = () => {
                     </ul>
                   )}
                 </li>
-
                 <li>
                   <Link to="/admin-dashboard/order-tracking">Order Tracking</Link>
                 </li>
@@ -69,6 +71,9 @@ const Navbar = () => {
             ) : (
               <>
                 {/* Regular User Links */}
+                <li>
+                  <Link to="/user-dashboard">Dashboard</Link> {/* User Dashboard Link */}
+                </li>
                 <li>
                   <Link to="/cart">Cart</Link>
                 </li>

@@ -19,6 +19,7 @@ const AddProduct = React.lazy(() => import("./components/AddProducts"));
 const ViewProducts = React.lazy(() => import("./components/ViewProducts"));
 const EditProduct = React.lazy(() => import("./components/EditProduct"));
 const UserDashboard = React.lazy(() => import("./components/UserDashboard"));
+const ContactUs = React.lazy(() => import("./components/ContactUs")); // Contact Us component
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ isAdminRoute, children }) => {
@@ -77,6 +78,15 @@ const App = () => {
                 <>
                   {useDynamicTitle("Sign In")}
                   <SignIn />
+                </>
+              }
+            />
+            <Route
+              path="/contact-us"
+              element={
+                <>
+                  {useDynamicTitle("Contact Us")}
+                  <ContactUs />
                 </>
               }
             />
