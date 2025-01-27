@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "React-based e-commerce site for computer items",
   "main": "src/index.jsx",
+  "homepage": "https://shiftyshadows.github.io/anchor-e-commerce-site",
   "private": true,
   "scripts": {
     "start": "webpack serve --mode development",
