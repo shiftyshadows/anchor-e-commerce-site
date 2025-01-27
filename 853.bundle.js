@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkanchor_ecommerce_frontend=self.webpackChunkanchor_ecommerce_frontend||[]).push([[853],{2853:(e,t,o)=>{o.r(t),o.d(t,{default:()=>n});var c=o(6540);o(1193);const n=()=>c.createElement("section",{className:"about"},c.createElement("h2",null,"About Us"),c.createElement("p",null,"Anchor E-Commerce is dedicated to providing top-quality computer products at unbeatable prices. Our mission is to empower technology enthusiasts with the tools they need to excel."))}}]);
+//# sourceMappingURL=853.bundle.js.map
